@@ -11,7 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Crear el renderizador
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xffffff); // Establecer el color de fondo a blanco
     container.appendChild(renderer.domElement);
+
+    // Añadir controles de órbita
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true; // Habilitar amortiguación (inercia)
+    controls.dampingFactor = 0.25;
+    controls.screenSpacePanning = false;
+    controls.minDistance = 1; // Distancia mínima de zoom
+    controls.maxDistance = 10; // Distancia máxima de zoom
 
     // Añadir iluminación
     const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -29,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Bucle de animación
     const animate = () => {
         requestAnimationFrame(animate);
+        controls.update(); // Actualizar controles
         renderer.render(scene, camera);
     };
     animate();
